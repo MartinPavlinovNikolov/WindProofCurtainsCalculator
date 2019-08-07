@@ -1,0 +1,19 @@
+{
+    "name": "marto/wind-proof-curtains-calculator",
+    "type": "project",
+    "require": {
+        "phpmailer/phpmailer": "^6.0",
+        "stripe/stripe-php": "^6.40"
+    },
+    "license": "GPL",
+    "authors": [
+        {
+            "name": "MartinPavlinovNikolov",
+            "email": "martin_nikolov.89@abv.bg"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {"Includes\\": "./Includes/"}
+    }
+}
