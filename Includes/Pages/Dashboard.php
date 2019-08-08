@@ -42,7 +42,10 @@ class Dashboard extends BaseController
         add_action('wp_ajax_nopriv_send_email_manualy', [$this->callbacks, 'sendEmailManualy']);
 
         add_action('wp_ajax_update_order_status', [$this->callbacks, 'updateOrderStatus']);
-        add_action('wp_ajax_update_order_status', [$this->callbacks, 'updateOrderStatus']);
+        add_action('wp_ajax_nopriv_update_order_status', [$this->callbacks, 'updateOrderStatus']);
+
+        add_action('wp_ajax_update_email_to_me', [$this->callbacks, 'updateEmailToMe']);
+        add_action('wp_ajax_nopriv_update_email_to_me', [$this->callbacks, 'updateEmailToMe']);
 
         $widget = new WindProofCurtainsCalculatorWidget();
         $widget->register();

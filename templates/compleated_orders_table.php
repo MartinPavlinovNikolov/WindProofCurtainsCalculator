@@ -26,7 +26,7 @@
 
 				<!-- Modal -->
 				<div class="modal fade" :id="'exampleModalCenterC'+order.id+'A'" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-					<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+					<div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="max-width: 1175px;margin-right: 0;">
 						<div class="modal-content">
 							<div class="modal-header">
 								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -36,53 +36,55 @@
 							<div class="modal-body" style="background-color: #F0F0F0;">
 								<div class="row">
 									<div class="col-4 ml-3" style="background-color: #FFFFFF;border-radius: 10px;">
+										<h5 class="mt-3"><b>Данни на клиента</b></h5>
 										<ul class="col text-left pt-3 pb-3">
 						    				<li>
-						    					<span>Име: </span>
+						    					<span><b>Име: </b></span>
 						    					<span>{{order.username}}</span>&nbsp;&nbsp;
 						    				</li>
 						    				<li>
-						    					<span>Тел: </span>
+						    					<span><b>Тел: </b></span>
 						    					<span>{{order.phone}}</span>
 						    				</li>
 						    				<li>
-						    					<span>е-маил:</span>
+						    					<span><b>е-маил: </b></span>
 						    					<span>{{order.email}}</span>&nbsp;&nbsp;
 						    				</li>
 						    				<li>
-						    					<span>адрес: </span>
+						    					<span><b>адрес: </b></span>
 						    					<span>{{order.address}}</span>&nbsp;&nbsp;
 						    				</li>
 										</ul>
 									</div>
 									<div class="col-4 ml-3" style="background-color: #FFFFFF;border-radius: 10px;">
+										<h5 class="mt-3"><b>Данни на поръчката</b></h5>
 										<ul class="col text-left pt-3 pb-3">
 						    				<li>
-						    					<span>No: </span>
+						    					<span><b>No: </b></span>
 						    					<span>{{order.id}}</span>&nbsp;&nbsp;
 						    				</li>
 						    				<li>
-						    					<span>Дата: </span>
+						    					<span><b>Дата: </b></span>
 						    					<span>{{order.ordered_at}}</span>&nbsp;&nbsp;
 						    				</li>
 						    				<li>
-						    					<span>Сума: </span>
+						    					<span><b>Сума: </b></span>
 						    					<span>{{(order.paid / 100)}}£</span>&nbsp;&nbsp;
 						    				</li>
 						    				<li>
-						    					<span>Статус: </span>
+						    					<span><b>Статус: </b></span>
 												<span>{{orderStatus(o)}}</span>
 						    				</li>
 						    				<li>
-						    					<span>Цвят: </span>
+						    					<span><b>Цвят: </b></span>
 						    					<span>{{order.color}}</span>
 						    				</li>
 										</ul>
 									</div>
 									<div class="col-3 ml-3" style="background-color: #FFFFFF;border-radius: 10px;">
-				    					<span class="mt-3"><i>прикачена снимка</i></span>
+				    					<h5 class="mt-3"><b>Снимка на мястото за монтаж</b></h5>
 										<img class="img-fluid img-thumbnail" :src="order.image_of_the_place">
-										<a :href="order.image_of_the_place" class="btn btn-info btn-sm mt-1" download>изтегли</a>
+										<a :href="order.image_of_the_place" class="btn btn-info btn-sm mt-3 mb-3" download>изтегли оригинал</a>
 									</div>
 								</div>
 								<div class="row mt-3">
@@ -93,7 +95,7 @@
 										  	</li>
 										</ul>
 									</div>
-									<div class="col-12" style="margin-left: .95rem !important;border-left: 1px solid #dee2e6;border-right: 1px solid #dee2e6;border-bottom: 1px solid #dee2e6;max-width: 96.3% !important;background-color: #FFFFFF;">
+									<div class="col-12" style="margin-left: .95rem !important;border-left: 1px solid #dee2e6;border-right: 1px solid #dee2e6;border-bottom: 1px solid #dee2e6;max-width: 97.3% !important;background-color: #FFFFFF;">
 										<div class="tab-content" id="myWallContentC">
 										  	<div v-for="(wall, w) in order.walls" class="tab-pane fade" :class="w == 0 ? 'show active' : ''" :id="'wallC'+wall.id+order.id" role="tabpanel" :aria-labelledby="'wall-tabC'+wall.id+order.id">
 												<div class="container mt-3 mb-3">

@@ -28,6 +28,25 @@
 			<h2>Имейли</h2>
 		</div>
 	</div>
+	<div class="row">
+		<div style="background-color: #f8f8f8;" class="col-7 card mt-5">
+			<form id="email_to_me" action="#" method="post">
+				<input type="hidden" name="id" value="<?= $email_to_me['id'] ?>">
+				<div class="form-group">
+					<h6>Вид на имейла: "<i><?= $email_to_me['title'] ?></i>"</h6>
+				</div>
+				<div class="form-group">
+					<label for="">Тема</label>
+					<input name="subject" type="text" class="form-control" placeholder="subject" value="<?= $email_to_me['subject'] ?>" required>
+				</div>
+				<div class="form-group">
+					<label for="">Съдържание</label>
+					<textarea name="body" class="form-control" rows="5"><?= $email_to_me['body'] ?></textarea required>
+				</div>
+				<input id="submit_email_to_me" class="btn btn-success col-3 offset-9 ettmfs" type="submit" name="" value="запази/обнови">
+			</form>
+		</div>
+	</div>
 	<?php foreach($email_templates as $template){ ?>
 	<div class="row">
 		<div style="background-color: #f8f8f8;" class="col-7 card mt-5">
@@ -54,6 +73,23 @@
 <script type="text/javascript">
 	jQuery(document).ready(function(){
 
+		jQuery('.ettmfs').click(function(e){
+			e.preventDefault();
+			let form = jQuery(e.target.parentElement);
+			let subject = form.find('input[type="text"]').val();
+			let body = form.find('textarea').val();
+			let id = '1';
+			let action = 'update_email_to_me';
+			let data = {
+				action: action,
+				id: id,
+				subject: subject,
+				body: body
+			};
+			jQuery.post(ajaxurl, data, function(response){
+				alert(response);
+			});
+		});
 		jQuery('.etfs').click(function(e){
 			e.preventDefault();
 			let form = jQuery(e.target.parentElement);

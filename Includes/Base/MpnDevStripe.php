@@ -109,9 +109,9 @@ class MpnDevStripe {
 	private function sendEmailToOwner()
 	{
 		$this->mail->sendOnCustomerMakeOrder([
-			'subject' => 'Клиент е наравил поръчка',
-			'body' => $this->getMailContentForOwnerOnCustomerMakeOrder(),
-			'alt_body' => strip_tags($this->getMailContentForOwnerOnCustomerMakeOrder())
+			'subject' => $this->getMailSubjectForOwnerOnCustomerMakeOrder(),
+			'body' => $this->replaceShortCodes($this->getMailContentForOwnerOnCustomerMakeOrder()),
+			'alt_body' => strip_tags($this->replaceShortCodes($this->getMailContentForOwnerOnCustomerMakeOrder()))
 		]);
 		return $this->resetMail();
 	}
@@ -136,9 +136,18 @@ class MpnDevStripe {
 		return $wpdb->get_results("SELECT * FROM `$table_email_templates`", ARRAY_A)[0]['body'];
 	}
 
+	private function getMailSubjectForOwnerOnCustomerMakeOrder()
+	{
+		global $wpdb;
+		$table_email_to_me = $wpdb->prefix . "mpn_dev_plugin_email_to_me";
+		return $wpdb->get_results("SELECT * FROM `$table_email_to_me`", ARRAY_A)[0]['subject'];
+	}
+
 	private function getMailContentForOwnerOnCustomerMakeOrder()
 	{
-		return 'Клиент е направил поръчка и е <b>платил</b>';
+		global $wpdb;
+		$table_email_to_me = $wpdb->prefix . "mpn_dev_plugin_email_to_me";
+		return $wpdb->get_results("SELECT * FROM `$table_email_to_me`", ARRAY_A)[0]['body'];
 	}
 
 	private function saveImageOfThePlace()

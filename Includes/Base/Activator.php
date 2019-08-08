@@ -17,6 +17,7 @@ namespace Includes\Base;
 		$table_name3 = $wpdb->prefix . "mpn_dev_plugin_dimensions";
 		$table_name4 = $wpdb->prefix . "mpn_dev_plugin_setup";
 		$table_name5 = $wpdb->prefix . "mpn_dev_plugin_email_templates";
+		$table_name6 = $wpdb->prefix . "mpn_dev_plugin_email_to_me";
 
 		$charset_collate = $wpdb->get_charset_collate();
 
@@ -96,6 +97,15 @@ namespace Includes\Base;
 			PRIMARY KEY  (id)
 		) $charset_collate;";
 
+		$email_to_me = "CREATE TABLE IF NOT EXISTS $table_name6 (
+			id INT NOT NULL AUTO_INCREMENT,
+			title TEXT NOT NULL,
+			subject TEXT NOT NULL,
+			body TEXT NOT NULL,
+			slug TEXT NOT NULL,
+			PRIMARY KEY  (id)
+		) $charset_collate;";
+
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 		dbDelta( $orders );
 		dbDelta( $customers );
@@ -103,6 +113,7 @@ namespace Includes\Base;
 		dbDelta( $dimensions );
 		dbDelta( $setup );
 		dbDelta( $email_templates );
+		dbDelta( $email_to_me );
 
 		$table_email_templates = $wpdb->prefix . "mpn_dev_plugin_email_templates";
 		$email_templates = $wpdb->get_results("SELECT * FROM `$table_email_templates`", ARRAY_A);
@@ -126,7 +137,7 @@ namespace Includes\Base;
 				'slug' => 'manifacturing'
 			]);
 			$wpdb->insert($table_email_templates, [
-				'title' => 'Поръчката е подадена към куриер',
+				'title' => 'Предадено',
 				'subject' => 'order was send to curier.',
 				'body' => 'send to curier',
 				'slug' => 'send_to_curier'
@@ -148,6 +159,16 @@ namespace Includes\Base;
 				'subject' => 'order was canceled.',
 				'body' => 'canceled',
 				'slug' => 'canceled'
+			]);
+		}
+		$table_email_to_me = $wpdb->prefix . "mpn_dev_plugin_email_to_me";
+		$email_to_me = $wpdb->get_results("SELECT * FROM `$table_email_to_me`", ARRAY_A);
+		if($email_to_me === null || count($email_to_me) < 1){
+			$wpdb->insert($table_email_to_me, [
+				'title' => 'Уведомление за нова поръчка',
+				'subject' => 'you have a new order.',
+				'body' => 'you have a new order',
+				'slug' => 'to_me'
 			]);
 		}
  	}

@@ -37,7 +37,7 @@ class DashboardCallbacks extends BaseController
 				'slug' => 'manifacturing'
 			]);
 			$wpdb->insert($table_email_templates, [
-				'title' => 'Поръчката е подадена към куриер',
+				'title' => 'Предадено',
 				'subject' => 'order was send to curier.',
 				'body' => 'send to curier',
 				'slug' => 'send_to_curier'
@@ -155,6 +155,9 @@ class DashboardCallbacks extends BaseController
 		$table_email_templates = $wpdb->prefix . "mpn_dev_plugin_email_templates";
 		$email_templates = $wpdb->get_results("SELECT * FROM `$table_email_templates`", ARRAY_A);
 
+		$table_email_to_me = $wpdb->prefix . "mpn_dev_plugin_email_to_me";
+		$email_to_me = $wpdb->get_results("SELECT * FROM `$table_email_to_me`", ARRAY_A)[0];
+
 		return require_once( "$this->plugin_path/templates/emails.php" );
 	}
 
@@ -167,6 +170,23 @@ class DashboardCallbacks extends BaseController
 
 		$wpdb->update(
 			$wpdb->prefix . "mpn_dev_plugin_email_templates",
+			["body" => $body, "subject" => $subject],
+			["id" => $id]
+		);
+
+        echo 'Успешно записан!';
+        wp_die();
+    }
+
+    public function updateEmailToMe()
+    {
+    	global $wpdb;
+		$id = $_POST['id'];
+		$subject = $_POST['subject'];
+		$body = $_POST['body'];
+
+		$wpdb->update(
+			$wpdb->prefix . "mpn_dev_plugin_email_to_me",
 			["body" => $body, "subject" => $subject],
 			["id" => $id]
 		);

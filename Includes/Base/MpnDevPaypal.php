@@ -58,7 +58,7 @@ class MpnDevPaypal {
   private function sendEmailToOwner()
   {
     $this->mail->sendOnCustomerMakeOrder([
-      'subject' => 'Клиент е наравил поръчка',
+      'subject' => $this->getMailSubjectForOwnerOnCustomerMakeOrder(),
       'body' => $this->getMailContentForOwnerOnCustomerMakeOrder(),
       'alt_body' => strip_tags($this->getMailContentForOwnerOnCustomerMakeOrder())
     ]);
@@ -83,6 +83,20 @@ class MpnDevPaypal {
     global $wpdb;
     $table_email_templates = $wpdb->prefix . "mpn_dev_plugin_email_templates";
     return $this->replaceShortCodes($wpdb->get_results("SELECT * FROM `$table_email_templates`", ARRAY_A)[0]['body']);
+  }
+
+  private function getMailSubjectForOwnerOnCustomerMakeOrder()
+  {
+    global $wpdb;
+    $table_email_to_me = $wpdb->prefix . "mpn_dev_plugin_email_to_me";
+    return $this->replaceShortCodes($wpdb->get_results("SELECT * FROM `$table_email_to_me`", ARRAY_A)[0]['subject']);
+  }
+
+  private function getMailContentForOwnerOnCustomerMakeOrder()
+  {
+    global $wpdb;
+    $table_email_to_me = $wpdb->prefix . "mpn_dev_plugin_email_to_me";
+    return $this->replaceShortCodes($wpdb->get_results("SELECT * FROM `$table_email_to_me`", ARRAY_A)[0]['body']);
   }
 
   private function replaceShortCodes($body)
@@ -115,11 +129,6 @@ class MpnDevPaypal {
     }
     $body = nl2br($body);
     return $body;
-  }
-
-  private function getMailContentForOwnerOnCustomerMakeOrder()
-  {
-    return 'Клиент е направил поръчка и е <b>платил</b>';
   }
 
   private function saveImageOfThePlace()
