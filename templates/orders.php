@@ -44,7 +44,7 @@
 	let orders_menager = new Vue({
 		el: '#orders-menager',
 		data: {
-			headers: ['номер', 'име', 'сума', 'дата', 'статус', 'уведомление на клиента</br>за статус на поръчката', 'детайли'],
+			headers: ['номер', 'име', 'сума', 'дата', 'статус', 'уведомление на клиента</br>за статус на поръчката', 'детайли', 'изтрии'],
 			orders: <?= json_encode($orders) ?>
 		},
 		created: function(){
@@ -77,6 +77,23 @@
 			});
 		},
 		methods: {
+			deleteOrder: function(order, index){
+				let that = this;
+				if(confirm('Наистина ли желаете да изтриете тази поръчка?')){
+					jQuery.ajax({
+			            type: "POST",
+			            url: '/wp-admin/admin-ajax.php',
+			            data: {
+			            	"action": "delete_order",
+			                "order_id": order.id
+			            },
+			            success: function(response){
+			            	that.orders.splice(index, 1);
+			            	alert('Поръчка с номер: '+order.id+' беше изтрита успешно!');
+			            }
+			        });
+				}
+			},
 			orderStatus: function(index){
 				let status = '';
 				let current_status = this.orders[index].status;
@@ -98,7 +115,7 @@
 				});
 				return compleated;
 			},
-			updateOrderStatus: function(o, e){
+			updateOrderStatus: function(o){
 				let that = this;
 				jQuery.ajax({
 		            type: "POST",

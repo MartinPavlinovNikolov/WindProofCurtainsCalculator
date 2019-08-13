@@ -195,13 +195,48 @@ class DashboardCallbacks extends BaseController
         wp_die();
     }
 
+    public function deleteOrder()
+    {
+    	global $wpdb;
+		$order_id = $_POST['order_id'];
+
+		$table_walls = $wpdb->prefix . "mpn_dev_plugin_walls";
+		foreach($wpdb->get_results("SELECT * FROM `$table_walls` WHERE order_id='$order_id'", ARRAY_A) as $wall){
+			$wpdb->delete( $wpdb->prefix . "mpn_dev_plugin_dimensions", ["wall_id" => $wall['id']] );
+		}
+
+		$wpdb->delete( $wpdb->prefix . "mpn_dev_plugin_walls", ["order_id" => $order_id] );
+
+		$wpdb->delete( $wpdb->prefix . "mpn_dev_plugin_orders", ["id" => $order_id] );
+
+        wp_die();
+    }
+
     public function updateOrderStatus()
     {
     	global $wpdb;
 		$id = $_POST['order_id'];
 		$status = 'status_'.$_POST['status'];
 		$email = 'email_'.$_POST['status'];
-		if($_POST['status'] == 'send_to_curier'){
+
+		$wpdb->update(
+			$wpdb->prefix . "mpn_dev_plugin_orders",
+			[
+				'status_new_order' => null,
+				'status_processing' => null,
+				'status_manifacturing' => null,
+				'status_send_to_curier' => null,
+				'status_delivered' => null,
+				'status_delivered_fail' => null,
+				'status_canceled' => null,
+				"compleated_at" => null
+			],
+			[
+				"id" => $id
+			]
+		);
+
+		if($_POST['status'] == 'send_to_curier' || $_POST['status'] == 'canceled'){
 			$wpdb->update(
 				$wpdb->prefix . "mpn_dev_plugin_orders",
 				[$status => 'true', "compleated_at" => time()],
@@ -214,7 +249,7 @@ class DashboardCallbacks extends BaseController
 				["id" => $id]
 			);
 		}
-		$table_orders = $wpdb->prefix . "mpn_dev_plugin_orders";
+
 		if($wpdb->get_results("SELECT * FROM `$table_orders` WHERE id='$id'", ARRAY_A)[0][$email] == 'true'){
 			echo '<span class="dashicons dashicons-yes"></span>';
 		} else {

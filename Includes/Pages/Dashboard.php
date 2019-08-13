@@ -47,6 +47,9 @@ class Dashboard extends BaseController
         add_action('wp_ajax_update_email_to_me', [$this->callbacks, 'updateEmailToMe']);
         add_action('wp_ajax_nopriv_update_email_to_me', [$this->callbacks, 'updateEmailToMe']);
 
+        add_action('wp_ajax_delete_order', [$this->callbacks, 'deleteOrder']);
+        add_action('wp_ajax_nopriv_delete_order', [$this->callbacks, 'deleteOrder']);
+
         $widget = new WindProofCurtainsCalculatorWidget();
         $widget->register();
 	}

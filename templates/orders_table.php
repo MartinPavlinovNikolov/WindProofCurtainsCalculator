@@ -12,8 +12,8 @@
 	    	<td scope="row">{{order.ordered_at}}</td>
 	    	<td scope="row">
 
-	    		<select class="form-control w-75 m-auto select-me" :name="'select-order-O'+order.id" v-model="order.status">
-	    			<option v-for="(email_template, e) in order.email_templates" :value="email_template.slug" @click="updateOrderStatus(o, e)">{{email_template.title}}</option>
+	    		<select class="form-control w-75 m-auto select-me" :name="'select-order-O'+order.id" v-model="order.status" @change="updateOrderStatus(o)">
+	    			<option v-for="(email_template, e) in order.email_templates" :value="email_template.slug">{{email_template.title}}</option>
 	    		</select>
 
 	    	</td>
@@ -47,17 +47,17 @@
 						    					<span>{{order.phone}}</span>
 						    				</li>
 						    				<li>
-						    					<span><b>е-маил: </b></span>
+						    					<span><b>Е-mail: </b></span>
 						    					<span>{{order.email}}</span>&nbsp;&nbsp;
 						    				</li>
 						    				<li>
-						    					<span><b>адрес: </b></span>
+						    					<span><b>Адрес: </b></span>
 						    					<span>{{order.address}}</span>&nbsp;&nbsp;
 						    				</li>
 										</ul>
 									</div>
 									<div class="col-4 ml-3" style="background-color: #FFFFFF;border-radius: 10px;">
-										<h5 class="mt-3"><b>Данни на поръчката</b></h5>
+										<h5 class="mt-3"><b>Детайли на поръчката</b></h5>
 										<ul class="col text-left pt-3 pb-3">
 						    				<li>
 						    					<span><b>No: </b></span>
@@ -107,8 +107,8 @@
 																<p v-if="d == 0"><b>Параметри:</b>
 																<p class="ml-3">- Страна "{{dimension.letter}}": {{dimension.value}}{{order.measurment}}</p>
 															</div>
-															<p v-if="wall.note">Допълнителна информация от клиента: <i>{{wall.note}}</i></p>
-															<p v-else>Допълнителна информация от клиента: няма</p>
+															<p v-if="wall.note"><b>Допълнителна информация от клиента:</b> <i>{{wall.note}}</i></p>
+															<p v-else><b>Допълнителна информация от клиента:</b> няма</p>
 														</div>
 														<div class="col-4">
 															<div class="row img-thumbnail">
@@ -128,6 +128,11 @@
 						</div>
 					</div>
 				</div>
+	    	</td>
+	    	<td>
+	    		<button class="btn btn-sm btn-danger rounded-circle" @click="deleteOrder(order, o)">
+		    		<span class="dashicons dashicons-trash"></span>
+	    		</button>
 	    	</td>
 	    </tr>
 	</tbody>
